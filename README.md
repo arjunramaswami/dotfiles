@@ -1,1 +1,4 @@
 # dotfiles
+
+- Vim
+- i3
