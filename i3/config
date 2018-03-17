@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+font pango:Menlo 9
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -94,7 +94,9 @@ bindsym $mod+a focus parent
 
 set $workspace1 "1: Chrome  "
 set $workspace2 "2: Editor  "
-set $workspace10 "Todo"
+set $workspace8 "8: Music "
+set $workspace9 "9: RSS "
+set $workspace10 "10: Mail  "
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
@@ -104,8 +106,8 @@ bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
+bindsym $mod+8 workspace $workspace8
+bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
 
 # move focused container to workspace
@@ -116,12 +118,14 @@ bindsym $mod+Shift+4 move container to workspace 4
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+8 move container to workspace $workspace8
+bindsym $mod+Shift+9 move container to workspace $workspace9
 bindsym $mod+Shift+0 move container to workspace $workspace10
 
 assign [class="Google-chrome"] $workspace1
-assign [class="Terminator"] $workspace2
+assign [class="URxvt"] $workspace2
+assign [class="Vlc"] $workspace8
+assign [class="Thunderbird"] $workspace10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -181,7 +185,28 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # Load applications on login
+exec nm-applet
 exec google-chrome-stable
+exec thunderbird
 
 # Set wallpaper
 exec_always feh --bg-scale /home/mellkor/Pictures/wallpaper.jpg
+
+# ------ wal --------
+# Set colors from Xresources
+# Change 'color7' and 'color2' to whatever colors you want i3 to use
+# from the generated scheme.
+# NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
+# it fails to get colors from Xresources.
+set_from_resource $fg i3wm.color7 #f0f0f0
+set_from_resource $bg i3wm.color2 #f0f0f0
+
+# class                 border  backgr. text indicator child_border
+client.focused          $bg     $bg     $fg  $bg       $bg
+client.focused_inactive $bg     $bg     $fg  $bg       $bg
+client.unfocused        $bg     $bg     $fg  $bg       $bg
+client.urgent           $bg     $bg     $fg  $bg       $bg
+client.placeholder      $bg     $bg     $fg  $bg       $bg
+
+client.background       $bg
+
