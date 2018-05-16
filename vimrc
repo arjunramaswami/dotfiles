@@ -40,6 +40,16 @@ set wildmenu           " Visual Autocomplete for vim command
 
 let mapleader=","      " Set <Leader> key
 
+let g:netrw_liststyle=3     " Set netrw list type to tree
+let g:netrw_banner=0        " Remove netrw banner 
+let g:netrw_browse_split=4  " Open files in previous window (2 for vertical)
+let g:netrw_winsize=10      " Set width of netrw to 10%
+let g:netrw_altv=1          " Set right splitting
+augroup DirStructure        " Open netrw on vertical split on entering Vim
+    autocmd!
+    autocmd VimEnter * :Vexplore
+augroup END
+
 " Reload VIM without restarting:
 map <leader>s :source ~/.vimrc<CR>
 
