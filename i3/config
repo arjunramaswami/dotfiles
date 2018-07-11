@@ -90,7 +90,9 @@ bindsym $mod+Shift+o gaps outer current minus 5
 bindsym $mod+Shift+x exec $shutdown
 bindsym $mod+Shift+Backspace exec $reboot
 
-bindsym $mod+F2 exec --no-startup-id arandr
+# Toggle between monitors
+bindsym $mod+m exec --no-startup-id sh ~/dotfiles/i3/monitor.sh
+
 set $workspace1 "1: Browser  "
 set $workspace2 "2: Editor  "
 set $workspace3 "3: Reader "
