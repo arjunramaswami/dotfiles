@@ -94,6 +94,8 @@ bindsym $mod+F2 exec --no-startup-id arandr
 set $workspace1 "1: Browser  "
 set $workspace2 "2: Editor  "
 set $workspace3 "3: Reader "
+set $workspace6 "6: Zotero "
+set $workspace7 "7: IM "
 set $workspace8 "8: Music "
 set $workspace9 "9: RSS "
 set $workspace10 "10: Mail  "
@@ -104,8 +106,8 @@ bindsym $mod+2 workspace $workspace2
 bindsym $mod+3 workspace $workspace3
 bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5
-bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7
+bindsym $mod+6 workspace $workspace6
+bindsym $mod+7 workspace $workspace7
 bindsym $mod+8 workspace $workspace8
 bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
@@ -116,16 +118,18 @@ bindsym $mod+Shift+2 move container to workspace $workspace2
 bindsym $mod+Shift+3 move container to workspace $workspace3
 bindsym $mod+Shift+4 move container to workspace 4
 bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace $workspace8
+bindsym $mod+Shift+6 move container to workspace $workspace6
+bindsym $mod+Shift+7 move container to workspace $workspace7
+Bindsym $mod+Shift+8 move container to workspace $workspace8
 bindsym $mod+Shift+9 move container to workspace $workspace9
 bindsym $mod+Shift+0 move container to workspace $workspace10
 
 assign [class="Chromium"] $workspace1
 assign [class="URxvt"] $workspace2
 assign [class="Evince"] $workspace3
+assign [class="Zotero"] $workspace6
 assign [class="Vlc"] $workspace8
+assign [class="Newsboat"] $workspace9
 assign [class="Thunderbird"] $workspace10
 
 # reload the configuration file
@@ -164,8 +168,25 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+        status_command SCRIPT_DIR=~/.config/i3blocks/scripts i3blocks -c /home/mellkor/.config/i3blocks/i3blocks.conf
+        #position top
+        height 18
+ 	    font pango:Source Sans Pro-10 10
+        colors {
+          separator #268bd2
+          background #002b36
+          statusline #839496
+          focused_workspace #fdf6e3 #6c71c4 #fdf6e3
+          active_workspace #fdf6e3 #6c71c4 #fdf6e3
+          inactive_workspace #002b36 #586e75 #002b36
+          urgent_workspace #d33682 #d33682 #fdf6e3
+        } 
+        #status_command i3status
 }
+client.focused #6c71c4 #6c71c4 #fdf6e3 #6c71c4
+client.focused_inactive #073642 #073642 #eee8d5 #6c71c4
+client.unfocused #073642 #073642 #93a1a1 #586e75
+client.urgent #d33682 #d33682 #fdf6e3 #dc322f
 
 # Lock screen using i3lock
 bindsym $mod+x exec i3lock
@@ -186,28 +207,14 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # Load applications on login
-exec nm-applet
+exec --no-startup-id nm-applet
 exec chromium
 exec thunderbird
+exec compton -fb --config ~/.compton.conf
+
+# Opens newsboat in workspace9
+# exec --no-startup-id i3-msg 'exec urxvt -name Newsboat -e newsboat'
 
 # Set wallpaper
 exec_always feh --bg-scale /home/mellkor/Pictures/wallpaper.jpg
-
-# ------ wal --------
-# Set colors from Xresources
-# Change 'color7' and 'color2' to whatever colors you want i3 to use
-# from the generated scheme.
-# NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
-# it fails to get colors from Xresources.
-set_from_resource $fg i3wm.color7 #f0f0f0
-set_from_resource $bg i3wm.color2 #f0f0f0
-
-# class                 border  backgr. text indicator child_border
-client.focused          $bg     $bg     $fg  $bg       $bg
-client.focused_inactive $bg     $bg     $fg  $bg       $bg
-client.unfocused        $bg     $bg     $fg  $bg       $bg
-client.urgent           $bg     $bg     $fg  $bg       $bg
-client.placeholder      $bg     $bg     $fg  $bg       $bg
-
-client.background       $bg
 
