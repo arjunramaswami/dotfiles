@@ -2,9 +2,6 @@
 source ~/dotfiles/vim/autoload/pathogen.vim
 execute pathogen#infect('bundle/{}', '~/dotfiles/vim/bundle/{}')
 
-" Command-t ignored files on search
-set wildignore+=*.log,*.sql,*.cache
-
 " -----------------------------------------------
 " Lightline Settings
 " -----------------------------------------------
@@ -108,4 +105,21 @@ augroup CtagsGroup
   autocmd BufRead * call FindTagsFileInGitDir(expand("<afile>"))
 augroup END
 
+" -----------------------------------------------
+" Ctrl-P
+" -----------------------------------------------
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+
+" Command-t ignored files on search
+set wildignore+=*.log,*.sql,*.cache
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " Linux
+
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 " -----------------------------------------------
