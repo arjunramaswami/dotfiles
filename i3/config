@@ -21,6 +21,9 @@ floating_modifier $mod
 
 bindsym $mod+Return exec $term
 
+# Download xcwd
+bindsym $mod+Shift+Return exec urxvt -cd $(xcwd) 
+
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -87,8 +90,22 @@ bindsym $mod+Shift+i gaps inner current minus 5
 bindsym $mod+o gaps outer current plus 5
 bindsym $mod+Shift+o gaps outer current minus 5
 
+# Show the first scratchpad window
+bindsym $mod+minus [instance="math"] scratchpad show; [instance="math"] move position center
+
+for_window [instance="math"] floating enable
+for_window [instance="math"] resize set 800 300
+for_window [instance="math"] move scratchpad
+for_window [instance="math"] border pixel 5
+exec --no-startup-id $term -name math -f mono:pixelsize=24 -e python -q
+
 bindsym $mod+Shift+x exec $shutdown
 bindsym $mod+Shift+Backspace exec $reboot
+
+# Screenshot using SCROT
+bindsym --release Print exec "scrot -m '/home/mellkor/Pictures/screenshots/%s_%H%M_%d.%m.%Y_$wx$h.png'"
+bindsym --release Shift+Print exec "scrot -s '/home/mellkor/Pictures/screenshots/%s_%H%M_%d%m%Y_$wx$h.png'"
+bindsym --release $mod+Shift+Print exec "scrot -u -d 4 '/home/mellkor/Pictures/screenshots/%s_%H%M_%d%m%Y_$wx$h.png'"
 
 # Toggle between monitors
 bindsym $mod+m exec --no-startup-id sh ~/dotfiles/i3/monitor.sh
@@ -127,11 +144,11 @@ bindsym $mod+Shift+9 move container to workspace $workspace9
 bindsym $mod+Shift+0 move container to workspace $workspace10
 
 assign [class="Chromium"] $workspace1
-assign [class="URxvt"] $workspace2
+#assign [class="URxvt"] $workspace2
 assign [class="Evince"] $workspace3
 assign [class="Zotero"] $workspace6
 assign [class="Vlc"] $workspace8
-assign [class="Newsboat"] $workspace9
+assign [class="URxvt" instance="^newsboat$"] $workspace9
 assign [class="Thunderbird"] $workspace10
 
 # reload the configuration file
@@ -174,6 +191,7 @@ bar {
         #position top
         height 18
  	    font pango:Source Sans Pro-10 10
+        mode dock
         colors {
           separator #268bd2
           background #002b36
@@ -215,7 +233,7 @@ exec thunderbird
 exec compton -fb --config ~/.compton.conf
 
 # Opens newsboat in workspace9
-# exec --no-startup-id i3-msg 'exec urxvt -name Newsboat -e newsboat'
+exec --no-startup-id i3-msg 'workspace $workspace9; exec i3-sensible-terminal -e newsboat; workspace $workspace1'
 
 # Set wallpaper
 exec_always feh --bg-scale /home/mellkor/Pictures/wallpaper.jpg
